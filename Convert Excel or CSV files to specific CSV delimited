@@ -1,0 +1,25 @@
+# import library
+
+import pandas as pd
+
+# select file extenstion
+print('What is your file extension?')
+file_extension = input('CSV or Excel: ')
+
+# select file
+file_name = input('File Name (with extension): ')
+
+# read file
+if lower(file_extension) == 'csv':
+  df = pd.read_csv(file_name)
+if lower(file_extension) == 'excel':
+  df = pd.read_excel(file_name)
+
+
+# select delimited
+file_delimited = input('What is your desired CSV delimited: ')
+
+# output
+file_output = input('Output File Name (exclude extension): ')
+df.to_csv(file_output+'.csv', sep = file_delimited)
+print('Your file is ready!')
