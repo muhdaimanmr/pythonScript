@@ -1,0 +1,32 @@
+import os
+import pandas as pd
+import itertools
+from PyPDF2 import PdfFileReader, PdfFileWriter
+
+
+# csv files contained the rules
+df = pd.read_csv('*.csv')
+
+# convert dataframe data to list
+pdffile = df['Main Filename'].values.tolist()
+folder = df['Folder Name'].values.tolist()
+startpage = df['Start Page'].values.tolist()
+endpage = df['End Page'].values.tolist()
+output = df['Output File Name'].values.tolist()
+
+#loop the information in the list
+for (a,b,c,d,e) in itertools.zip_longest(pdffile, startpage, endpage, folder, output):
+    pdf = PdfFileReader(a, "rb")
+    pdf_writer = PdfFileWriter()
+
+    # splitting process
+    for page in range(b-1,c):
+        pdf_writer.addPage(pdf.getPage(page))
+    
+    # create output folder if not available
+    if not os.path.isdir(d):
+        os.makedirs(d)
+    
+    # create pdf files
+    with open(os.path.join(d,e), 'wb') as out:
+        pdf_writer.write(out)
