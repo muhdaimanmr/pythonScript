@@ -1,0 +1,25 @@
+# author: Muhammad Aiman
+# version: v1.0
+# date: 5-Nov-2022
+# time: 4.16am (MYT)
+# pyhton version: 3.9.6
+# package required: PyPDF2
+# description: splitting multiple PDF files to single page to it designated folder
+
+
+
+from PyPDF2 import PdfFileWriter, PdfFileReader
+
+input = '*.pdf' # pdf filename
+folder = '*' # folder name for output file
+
+inputpdf = PdfFileReader(open(input, "rb"))
+
+if not os.path.isdir(folder):
+        os.makedirs(folder)
+
+for i in range(inputpdf.numPages):
+    output = PdfFileWriter()
+    output.addPage(inputpdf.getPage(i))
+    with open(os.path.join(folder,input+'page-%s.pdf') % i , 'wb') as out:
+        pdf_writer.write(out)
