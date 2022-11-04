@@ -1,3 +1,13 @@
+# author: Muhammad Aiman
+# version: v1.0
+# date: 5-Nov-2022
+# time: 3.47am (MYT)
+# pyhton version: 3.9.6
+# package required: pandas, PyPDF2
+# description: splitting multiple PDF files according to rules set up around start page, end page, output filename naming convention and output folder
+
+
+
 import os
 import pandas as pd
 import itertools
@@ -14,7 +24,7 @@ startpage = df['Start Page'].values.tolist()
 endpage = df['End Page'].values.tolist()
 output = df['Output File Name'].values.tolist()
 
-#loop the information in the list
+# loop item in the list
 for (a,b,c,d,e) in itertools.zip_longest(pdffile, startpage, endpage, folder, output):
     pdf = PdfFileReader(a, "rb")
     pdf_writer = PdfFileWriter()
@@ -30,3 +40,5 @@ for (a,b,c,d,e) in itertools.zip_longest(pdffile, startpage, endpage, folder, ou
     # create pdf files
     with open(os.path.join(d,e), 'wb') as out:
         pdf_writer.write(out)
+
+print('All PDF files have generated')
