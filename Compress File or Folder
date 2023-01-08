@@ -1,0 +1,89 @@
+# author: Muhammad Aiman
+# version: v1.0
+# date: 7-Jan-2023
+# time: 4.30pm (MYT)
+# pyhton version: 3.9.6
+# package required: PyPDF2
+# description: compress file or folder to zip file
+
+import os
+import zipfile
+
+# file type information
+file_type = input('Is your file is a folder? (Y/n): ')
+
+# input file information
+input_filename = 'n/a'
+
+if file_type == 'n':
+    input_filename = input('What is the filename (without extension): ')
+    file_extension = input('What is the file extension (if folder leave it blank): ')
+    input_filename = input_filename+'.'+file_extension
+    file_type = file_extension+' file'
+
+if file_type == 'Y':
+    input_filename = input('What is the filename (without extension): ')
+    file_type = 'Folder'
+
+print('File Type: '+file_type)
+print('Input Filename: '+input_filename)
+
+
+# output file information
+output_file_type = input('Your output filename is the same as input filename? (Y/n):')
+output_filename = 'n/a'
+
+if output_file_type == 'n':
+    output_filename = input('What is the output filename (without extension): ')
+    output_filename = output_filename+'.zip'   
+
+if output_file_type == 'Y':
+    output_filename = input_filename+'.zip'
+
+print('Input Filename: '+output_filename)
+
+
+# compress file
+if os.path.isfile(input_filename) == False:
+    print('Input file not available')
+
+if os.path.isfile(input_filename) == True:
+
+    if input_filename == 'n/a':
+        print('Invalid input filename')
+
+    if output_filename == 'n/a':
+        print('Invalid output filename')
+
+    if file_type == 'Folder':
+        print('Compression Job status: IN PROGRESS')
+        def retrieve_file_paths(dirName):
+            filePaths = []
+            for root, directories, files in os.walk(dirName):
+                for filename in files:
+                    filePath = os.path.join(root, filename)
+                    filePaths.append(filePath)
+            return filePaths
+ 
+        def main():
+            dir_name = input_filename
+            filePaths = retrieve_file_paths(dir_name)
+
+            zip_file = zipfile.ZipFile(output_filename, 'w')
+            with zip_file:
+                for file in filePaths:
+                    zip_file.write(file)
+   
+        if __name__ == "__main__":
+            main()
+
+        print('Compression Job status: DONE')
+        print(output_filename+' file is created successfully!')
+
+    if file_type != 'Folder':
+        print('Compression Job status: IN PROGRESS')
+        zip_file = zipfile.ZipFile(output_filename, 'w')
+        zip_file.write(input_filename, compress_type=zipfile.ZIP_DEFLATED)
+        zip_file.close()
+    print('Compression Job status: DONE')
+
