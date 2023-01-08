@@ -1,0 +1,27 @@
+# author: Muhammad Aiman
+# version: v1.0
+# date: 8-Jan-2023
+# time: 9.16pm (MYT)
+# pyhton version: 3.9.6
+# package required: PyPDF2
+# description: to upload file to Google Drive (not working for shared drive)
+
+from pydrive2.auth import GoogleAuth
+from oauth2client.service_account import ServiceAccountCredentials
+from pydrive2.drive import GoogleDrive
+
+scope = ['https://www.googleapis.com/auth/drive.readonly','https://spreadsheets.google.com/feeds','https://www.googleapis.com/auth/drive']
+
+gauth = GoogleAuth()
+gauth.credentials = ServiceAccountCredentials.from_json_keyfile_name('serviceaccountkey.json', scope)
+drive = GoogleDrive(gauth) 
+
+
+file = 'FILENAME'
+print('File Upload to Google Drive Status: IN PROGESS')
+
+gfile = drive.CreateFile({'parents': [{'id': 'FOLDER ID'}]})
+gfile.SetContentFile(zip_filename)
+gfile.Upload()
+
+print('File Upload to Google Drive Status: DONE')
