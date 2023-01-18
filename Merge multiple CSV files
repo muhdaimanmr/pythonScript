@@ -1,0 +1,15 @@
+import os
+import pandas as pd
+from re import search
+
+file_list = os.listdir(file directory)
+df_append = pd.DataFrame()
+
+for file in file_list:
+    if search('.csv',file):
+        file
+        df_temp = pd.read_csv(file directory+file)
+        df_append = df_append.append(df_temp, ignore_index = True)
+
+
+df_append.to_csv(output csv filename)
